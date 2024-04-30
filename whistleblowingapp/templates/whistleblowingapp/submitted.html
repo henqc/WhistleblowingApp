@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Success</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin-bottom: 80px;
+        }
+	page-container {
+	    position: relative;
+	}
+        footer {
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+	    padding: 25px;
+	    margin-top: 50px;
+	    bottom: 0;
+	    left: 0;
+	    width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1>Your Report has been submitted!</h1>
+        <div class="mt-3">
+            <a href="{% url 'whistleblowingapp:signedin' %}" class="btn btn-primary">Back</a>
+        </div>
+    </div>
+
+<footer class="bg-dark py-1 mt-3">
+    <div class="container text-light text-center">
+        <p> Disclaimer: This system operates solely as a class project. The system is not monitored and no real information should be submitted. </p>
+    </div>
+</footer>
+
+</body>
+</html>

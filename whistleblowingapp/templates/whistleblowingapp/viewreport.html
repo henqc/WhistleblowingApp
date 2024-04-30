@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        form {
+            margin: auto;
+            max-width: 600px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+        }
+        .form-control, .form-control:focus {
+            border-color: #ced4da;
+        }
+        .form-control:disabled, .form-control[readonly] {
+            background-color: #e9ecef;
+        }
+        .footer {
+            position: fixed;
+            background-color: #D3D3D3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            margin-top: 50px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            color: #222222;
+        }
+        .spacer {
+            min-height: 30px;
+        }
+    </style>
+    <script>
+        function toggleVisibility(id) {
+            var element = document.getElementById(id);
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body class="d-flex flex-column min-vh-100" bottommargin="30px">
+<div class="container mt-5">
+    <form method="post" action="{% url 'whistleblowingapp:viewreport' report.id %}" class="bg-light p-4 shadow-sm">
+        {% csrf_token %}
+        <h3 class="mb-3">{{ report.reportTitle }}</h3>
+        <div class="form-group">
+            <p><strong>Report User:</strong> {{ report.user }}</p>
+        </div>
+        <div class="form-group">
+            <p><strong>Report Description:</strong> {{ report.reportDescription }}</p>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select name="status" id="status" class="form-control">
+                <option value="New" {% if report.status == "New" %} selected {% endif %}>New</option>
+                <option value="In Progress" {% if report.status == "In Progress" %} selected {% endif %}>In Progress</option>
+                <option value="Resolved" {% if report.status == "Resolved" %} selected {% endif %}>Resolved</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="admin_notes">Admin Notes:</label>
+            <textarea name="admin_notes" id="admin_notes" class="form-control" rows="4">{{ report.admin_notes }}</textarea>
+        </div>
+
+<!--        {% if report.reportText %}-->
+<!--            <div class="form-group"><a href="{{ report.reportText.url }}" class="btn btn-link">View .txt file</a></div>-->
+<!--        {% endif %}-->
+<!--        {% if report.reportPDF %}-->
+<!--            <div class="form-group"><a href="{{ report.reportPDF.url }}" class="btn btn-link">View PDF</a></div>-->
+<!--        {% endif %}-->
+<!--        {% if report.reportJPEG %}-->
+<!--            <div class="form-group"><a href="{{ report.reportJPEG.url }}" class="btn btn-link">View JPEG</a></div>-->
+<!--        {% endif %}-->
+
+            {% if report.reportText %}
+        <div class="form-group">
+            <a href="#" onclick="toggleVisibility('txt-file'); return false;" class="btn btn-link">Show/Hide .txt file</a>
+
+            <embed id="txt-file" src="{{ report.reportText.url }}" type="text/plain" width="100%" height="500" style="border:none; display:none;">
+        </div>
+        {% endif %}
+        {% if report.reportPDF %}
+        <div class="form-group">
+            <a href="#" onclick="toggleVisibility('pdf-file'); return false;" class="btn btn-link">Show/Hide PDF</a>
+
+            <embed id="pdf-file" src="{{ report.reportPDF.url }}" type="application/pdf" width="100%" height="500" style="border:none; display:none;">
+        </div>
+        {% endif %}
+        {% if report.reportJPEG %}
+        <div class="form-group">
+            <a href="#" onclick="toggleVisibility('jpeg-image'); return false;" class="btn btn-link">Show/Hide JPEG</a>
+
+            <img id="jpeg-image" src="{{ report.reportJPEG.url }}" alt="JPEG Image" width="100%" style="display:none;">
+        </div>
+        {% endif %}
+
+        <div class="text-center">
+            <input type="submit" value="Submit Changes" class="btn btn-primary">
+        </div>
+    </form>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'whistleblowingapp:allreports' %}" class="btn btn-secondary">Back</a>
+    </div>
+
+</div>
+</body>
+{% spaceless %}
+<div class = 'description' contenteditable = 'true' placeholder='{{my_placeholder}}'>
+</div>
+{% endspaceless %}
+{% spaceless %}
+<div class = 'description' contenteditable = 'true' placeholder='{{my_placeholder}}'>
+</div>
+{% endspaceless %}
+
+<footer class="bg-dark py-1 mt-3">
+    <div class="container text-light text-center">
+        <p> Disclaimer: This system operates solely as a class project. The system is not monitored and no real information should be submitted. </p>
+    </div>
+</footer>
+
+</html>
